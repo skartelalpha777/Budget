@@ -1,8 +1,10 @@
 require('dotenv').config();
 const User = require('./models/userSchema');
+const route = require('./routes/userRoutes');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+
 
 const app = express();
 const PORT = process.env.PORT || 2500;
@@ -26,46 +28,10 @@ const connexion = async () => {
     console.error('❌ Impossible de se connecter à MongoDB :', erreur.message);
   };
 }
-
+app.use("/api", route);
 connexion();
 
-const find = async (req, res) => {
 
-
-  try {
-    const { email } = req.params;
-    const user = await User.findOne({ email })
-    if (user) {
-      return res.status(200).json(user);
-    }
-    else {
-      return res.status(404).json({ message: 'Utilisateur introuvable' })
-    }
-
-  } catch (error) {
-    console.error(error)
-    return res.status(500).json({ message: "Erreur du serveur" })
-  }
-}
-const findAll = async (req, res) => {
-
-  try {
-  
-    const users = await User.find();
-    if (users) {
-      return res.status(200).json(users);
-    }
-    else {
-      return res.status(404).json({ message: 'Utilisateur introuvable' })
-    }
-
-  } catch (error) {
-    console.error(error)
-    return res.status(500).json({ message: "Erreur du serveur" })
-  }
-}
-app.get("/api/user/:email", find);
-app.get("/api/users/", findAll);
 
 /*
 mongoose.connect(MONGO_URI)
