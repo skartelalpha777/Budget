@@ -25,7 +25,7 @@ const connexion = async () => {
     });
   }
   catch (erreur) {
-    console.error('❌ Impossible de se connecter à MongoDB :', erreur.message);
+    console.error('Impossible de se connecter à MongoDB :', erreur.message);
   };
 }
 app.use("/api", route);
